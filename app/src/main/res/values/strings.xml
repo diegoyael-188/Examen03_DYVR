@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Tienda DummyJSON</string>
+    <string name="consultar">Consultar productos</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="error_conexion">Error de conexión: %1$s</string>
+    <string name="error_servidor">Error del servidor: %1$d</string>
+    <string name="precio">$%1$.2f</string>
+    <string name="categoria">Categoría: %1$s</string>
+    <string name="marca">Marca: %1$s</string>
+    <string name="calificacion">Calificación: %1$.2f ★</string>
+    <string name="sin_marca">Sin marca</string>
+</resources>
