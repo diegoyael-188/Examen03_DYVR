@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -58,6 +58,7 @@
                 android:id="@+id/tvDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textAppearance="?attr/textAppearanceBodySmall"
@@ -66,7 +67,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -74,7 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="?attr/colorPrimary"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

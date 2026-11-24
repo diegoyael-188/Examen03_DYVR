@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- Barra superior: título a la izquierda, acciones a la derecha -->
+    <!-- Barra superior: título a la izquierda, recarga a la derecha -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -35,12 +35,35 @@
             app:tint="?attr/colorOnSurface" />
     </LinearLayout>
 
+    <!-- ProgressBar (subclase) delgada bajo la barra superior durante la petición -->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:trackThickness="2dp" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fondo"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+    <!-- Buscador: se oculta al hacer scroll hacia abajo y reaparece al subir -->
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:hint="@string/buscar"
+        android:layout_marginBottom="8dp"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
         app:boxBackgroundColor="@color/superficie"
         app:boxCornerRadiusBottomEnd="28dp"
         app:boxCornerRadiusBottomStart="28dp"
@@ -74,11 +97,12 @@
             app:singleLine="true"
             app:singleSelection="true" />
     </HorizontalScrollView>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProductos"
@@ -89,29 +113,36 @@
             android:paddingTop="4dp"
             android:paddingBottom="16dp" />
 
-        <!-- Estado inicial: botón para la primera consulta -->
-        <Button
-            android:id="@+id/btnConsultar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/consultar" />
+        <!-- Skeleton screen: se muestra mientras la petición está en curso -->
+        <LinearLayout
+            android:id="@+id/skeleton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="4dp"
+            android:visibility="gone">
+
+            <include layout="@layout/item_skeleton" />
+
+            <include layout="@layout/item_skeleton" />
+
+            <include layout="@layout/item_skeleton" />
+
+            <include layout="@layout/item_skeleton" />
+
+            <include layout="@layout/item_skeleton" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tvSinResultados"
+            android:id="@+id/tvMensaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/sin_resultados"
+            android:gravity="center"
+            android:padding="24dp"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:visibility="gone" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="gone" />
     </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

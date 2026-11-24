@@ -1,59 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fondo_imagen"
+    android:orientation="vertical"
     tools:context=".DetalleActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/fondo_imagen"
+        app:navigationContentDescription="@string/regresar"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/black" />
 
-        <ImageView
-            android:id="@+id/imgProducto"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:contentDescription="@null"
-            android:scaleType="fitCenter" />
+    <ScrollView
+        android:background="@color/superficie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textAppearance="?attr/textAppearanceHeadlineSmall" />
-
-        <TextView
-            android:id="@+id/tvPrecio"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?attr/textAppearanceTitleLarge" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvCategoria"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            <!-- Zona de la imagen: fondo diferenciado con esquinas inferiores redondeadas -->
+            <ImageView
+                android:id="@+id/imgProducto"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/bg_imagen_detalle"
+                android:contentDescription="@null"
+                android:paddingHorizontal="32dp"
+                android:paddingBottom="24dp"
+                android:scaleType="fitCenter" />
 
-        <TextView
-            android:id="@+id/tvMarca"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <TextView
-            android:id="@+id/tvCalificacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvDescripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textAppearance="?attr/textAppearanceBodyLarge" />
-    </LinearLayout>
-</ScrollView>
+                    <TextView
+                        android:id="@+id/tvCategoria"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="3dp"
+                        android:textColor="?attr/colorOnSecondaryContainer"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvMarca"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_badge"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="3dp"
+                        android:textColor="?attr/colorOnSecondaryContainer"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvPrecio"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCalificacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="4dp"
+                        android:gravity="center_vertical"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        app:drawableStartCompat="@drawable/ic_star" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:lineSpacingExtra="4dp"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

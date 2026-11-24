@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Silueta gris de item_producto mientras carga la petición -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Elevated"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/superficie"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <View
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@drawable/bg_skeleton" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="56dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_skeleton" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/bg_skeleton" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_skeleton" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="64dp"
+                android:background="@drawable/bg_skeleton" />
+
+            <View
+                android:layout_width="72dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_skeleton" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

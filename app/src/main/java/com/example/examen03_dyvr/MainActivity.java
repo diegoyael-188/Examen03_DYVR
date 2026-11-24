@@ -1,10 +1,14 @@
 package com.example.examen03_dyvr;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
     private String categoriaSel = null; // null = todas
     private String busqueda = "";
 
-    private Button btnConsultar;
     private ImageButton btnActualizar;
+    private RecyclerView rv;
+    private View skeleton;
     private ProgressBar progressBar;
+    private ObjectAnimator pulso;
     private ChipGroup chipGroup;
-    private TextView tvSinResultados;
+    private TextView tvMensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +62,21 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        btnConsultar = findViewById(R.id.btnConsultar);
         btnActualizar = findViewById(R.id.btnActualizar);
+        skeleton = findViewById(R.id.skeleton);
         progressBar = findViewById(R.id.progressBar);
         chipGroup = findViewById(R.id.chipGroup);
-        tvSinResultados = findViewById(R.id.tvSinResultados);
-        RecyclerView rv = findViewById(R.id.rvProductos);
+        tvMensaje = findViewById(R.id.tvMensaje);
+        rv = findViewById(R.id.rvProductos);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-        btnConsultar.setOnClickListener(v -> consultarProductos());
+        // Efecto "pulso" del skeleton mientras carga
+        pulso = ObjectAnimator.ofFloat(skeleton, View.ALPHA, 1f, 0.4f);
+        pulso.setDuration(800);
+        pulso.setRepeatMode(ValueAnimator.REVERSE);
+        pulso.setRepeatCount(ValueAnimator.INFINITE);
+
         btnActualizar.setOnClickListener(v -> consultarProductos());
 
         chipGroup.setOnCheckedStateChangeListener((group, ids) -> {
@@ -74,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
             aplicarFiltro();
         });
 
-        ((TextView) findViewById(R.id.etBuscar)).addTextChangedListener(new TextWatcher() {
+        // Filtra en tiempo real; el botón "buscar" del teclado solo lo cierra
+        EditText etBuscar = findViewById(R.id.etBuscar);
+        etBuscar.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override public void afterTextChanged(Editable s) {
@@ -82,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 aplicarFiltro();
             }
         });
+        etBuscar.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId != EditorInfo.IME_ACTION_SEARCH) return false;
+            getSystemService(InputMethodManager.class).hideSoftInputFromWindow(v.getWindowToken(), 0);
+            v.clearFocus();
+            return true;
+        });
+
+        consultarProductos(); // carga automática al entrar
     }
 
     private void consultarProductos() {
@@ -89,21 +110,22 @@ public class MainActivity extends AppCompatActivity {
         RetrofitClient.SERVICE.getProducts().enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(@NonNull Call<ProductResponse> call, @NonNull Response<ProductResponse> response) {
+                setCargando(false);
                 ProductResponse body = response.body();
                 if (response.isSuccessful() && body != null && body.products != null) {
                     todos = body.products;
                     construirChips();
-                    aplicarFiltro();
                 } else {
                     mostrarError(getString(R.string.error_servidor, response.code()));
                 }
-                setCargando(false);
+                aplicarFiltro();
             }
 
             @Override
             public void onFailure(@NonNull Call<ProductResponse> call, @NonNull Throwable t) {
                 setCargando(false);
                 mostrarError(getString(R.string.error_conexion, t.getLocalizedMessage()));
+                aplicarFiltro();
             }
         });
     }
@@ -137,14 +159,27 @@ public class MainActivity extends AppCompatActivity {
             if (coincideCategoria && coincideTexto) filtrados.add(p);
         }
         adapter.setProducts(filtrados);
-        tvSinResultados.setVisibility(filtrados.isEmpty() && !todos.isEmpty() ? View.VISIBLE : View.GONE);
+
+        if (filtrados.isEmpty()) {
+            tvMensaje.setText(todos.isEmpty() ? R.string.sin_productos : R.string.sin_resultados);
+            tvMensaje.setVisibility(skeleton.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        } else {
+            tvMensaje.setVisibility(View.GONE);
+        }
     }
 
     private void setCargando(boolean cargando) {
-        progressBar.setVisibility(cargando ? View.VISIBLE : View.GONE);
         btnActualizar.setEnabled(!cargando);
-        // El botón grande solo aparece mientras aún no hay productos cargados
-        btnConsultar.setVisibility(!cargando && todos.isEmpty() ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(cargando ? View.VISIBLE : View.INVISIBLE);
+        skeleton.setVisibility(cargando ? View.VISIBLE : View.GONE);
+        rv.setVisibility(cargando ? View.GONE : View.VISIBLE);
+        if (cargando) {
+            tvMensaje.setVisibility(View.GONE);
+            pulso.start();
+        } else {
+            pulso.cancel();
+            skeleton.setAlpha(1f);
+        }
     }
 
     private void mostrarError(String mensaje) {

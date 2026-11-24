@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="fondo">#F5F5F7</color>
     <color name="superficie">#FFFFFF</color>
+    <color name="skeleton">#E6E6EA</color>
+    <color name="fondo_imagen">#F7F7F9</color>
     <color name="estrella">#FFB300</color>
 </resources>

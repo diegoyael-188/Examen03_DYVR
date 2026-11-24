@@ -4,14 +4,12 @@
     <string name="buscar">Buscar productos</string>
     <string name="todos">Todos</string>
     <string name="sin_resultados">Sin resultados</string>
-    <string name="consultar">Consultar productos</string>
+    <string name="sin_productos">No se pudieron cargar los productos.\nToca ↻ para reintentar.</string>
     <string name="actualizar">Actualizar</string>
+    <string name="regresar">Regresar</string>
     <string name="error_conexion">Error de conexión: %1$s</string>
     <string name="error_servidor">Error del servidor: %1$d</string>
     <string name="precio">$%1$.2f</string>
     <string name="rating">%1$.1f</string>
-    <string name="categoria">Categoría: %1$s</string>
-    <string name="marca">Marca: %1$s</string>
-    <string name="calificacion">Calificación: %1$.2f ★</string>
-    <string name="sin_marca">Sin marca</string>
+    <string name="calificacion">%1$.2f</string>
 </resources>

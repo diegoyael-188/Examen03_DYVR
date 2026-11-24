@@ -1,6 +1,7 @@
 package com.example.examen03_dyvr;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class DetalleActivity extends AppCompatActivity {
     public static final String EXTRA_PRODUCT = "product";
@@ -33,13 +35,19 @@ public class DetalleActivity extends AppCompatActivity {
             return;
         }
 
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         Glide.with(this).load(p.thumbnail).into((ImageView) findViewById(R.id.imgProducto));
         ((TextView) findViewById(R.id.tvNombre)).setText(p.title);
         ((TextView) findViewById(R.id.tvDescripcion)).setText(p.description);
         ((TextView) findViewById(R.id.tvPrecio)).setText(getString(R.string.precio, p.price));
-        ((TextView) findViewById(R.id.tvCategoria)).setText(getString(R.string.categoria, p.category));
-        ((TextView) findViewById(R.id.tvMarca)).setText(getString(R.string.marca,
-                p.brand != null ? p.brand : getString(R.string.sin_marca)));
+        ((TextView) findViewById(R.id.tvCategoria)).setText(Product.formatCategoria(p.category));
         ((TextView) findViewById(R.id.tvCalificacion)).setText(getString(R.string.calificacion, p.rating));
+
+        // Algunos productos no traen marca: se oculta la etiqueta
+        TextView tvMarca = findViewById(R.id.tvMarca);
+        if (p.brand != null && !p.brand.isEmpty()) tvMarca.setText(p.brand);
+        else tvMarca.setVisibility(View.GONE);
     }
 }
