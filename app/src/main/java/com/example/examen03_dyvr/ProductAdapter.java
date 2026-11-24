@@ -39,7 +39,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         h.nombre.setText(p.title);
         h.descripcion.setText(p.description);
         h.precio.setText(ctx.getString(R.string.precio, p.price));
-        h.categoria.setText(ctx.getString(R.string.categoria, p.category));
+        h.categoria.setText(Product.formatCategoria(p.category));
+        h.rating.setText(ctx.getString(R.string.rating, p.rating));
         Glide.with(h.imagen).load(p.thumbnail).into(h.imagen);
         h.itemView.setOnClickListener(v -> ctx.startActivity(
                 new Intent(ctx, DetalleActivity.class).putExtra(DetalleActivity.EXTRA_PRODUCT, p)));
@@ -52,7 +53,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView imagen;
-        final TextView nombre, descripcion, precio, categoria;
+        final TextView nombre, descripcion, precio, categoria, rating;
 
         ViewHolder(View v) {
             super(v);
@@ -61,6 +62,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             descripcion = v.findViewById(R.id.tvDescripcion);
             precio = v.findViewById(R.id.tvPrecio);
             categoria = v.findViewById(R.id.tvCategoria);
+            rating = v.findViewById(R.id.tvRating);
         }
     }
 }
